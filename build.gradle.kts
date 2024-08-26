@@ -17,12 +17,13 @@ dependencies {
 }
 
 tasks.jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
         attributes (
-            "Premain-Class" to "HelperAgent"
+            "Premain-Class" to "moe.kurenai.demo.HelperAgent"
         )
     }
-    from(configurations.runtimeClasspath)
+    from(configurations.runtimeClasspath.get().map { if (it.isDirectory()) it else zipTree(it) })
 }
 
 tasks.test {
